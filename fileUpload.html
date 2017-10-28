@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>file upload</title>
+	<style>
+	.demo {
+		margin: 10px;
+		padding: 20px;
+		border-bottom: 1px dashed #ccf;
+	}
+	</style>
+</head>
+
+<body>
+	<div class="demo">
+		<form action="">
+			<input type="file" id="file" <!-- accept="image/*" -->
+			<input type="button" onclick="ShowFileName();" value="file upload"> </form>
+	</div>
+
+	<div class="demo">
+		<textarea id="text" placeholder="please input something."></textarea>
+		<button id="btn" onclick="BlobBuilder_test()">create and download buffer file</button>
+		<output id="result"></output>
+	</div>
+
+	<div class="demo">
+		<section>
+			<label for="file">please choose a file:</label>
+			<input type="file" id="file3">
+			<input type="button" value="read photo" onclick="readAsDataURL()">
+			<input type="button" value="read binary data" onclick="readAsBinaryString()">
+			<input type="button" value="read text" onclick="readAsText()">
+		</section>
+		<div name="result" id="demo3">
+
+		</div>
+	</div>
+
+	<script type="text/javascript">
+	function ShowFileName() {
+		var file = document.getElementById('file').files[0];
+		if (!/image\/\w+/.test(file.type)) {
+			alert('It is not a image !');
+		} else {
+			console.log(file);
+		}
+	}
+
+	function BlobBuilder_test() {
+		var text = document.getElementById('text').value;
+		var blob = new Blob([text], {
+			type: 'application/octet-binary'
+		});
+		var result = document.getElementById('result');
+		// use createObjectURL method create text url.
+		if (window.URL) {
+			result.innerHTML = `<a href='${window.URL.createObjectURL(blob)}' target='_blank'>file download</a>`;
+		} else if (window.webkitURL) {
+			result.innerHTML = `<a href='${window.webkitURL.createObjectURL(blob)}' target='_blank'>file download</a>`;
+		}
+	}
+
+
+	let result = document.getElementById('demo3');
+	let file = document.getElementById('file3');
+	let reader = new FileReader();
+
+	if (!typeof FileReader) {
+		result.innerHTML = 'sorry, your brower does not support FileReader';
+		file.setAttribute('disabled', 'disabled');
+	}
+
+	function readAsDataURL() {
+
+		if (file.toString() !== '[object File]') {
+			file = file.files[0];
+		}
+
+		if (!/image\/\w+/.test(file.type)) {
+			alert('please choose correct image file.');
+			return false;
+		}
+
+		reader.readAsDataURL(file);
+
+		reader.onload = function (e) {
+			result.innerHTML = `<img src='${this.result}' alt=''/>`;
+		}
+	}
+
+
+	function readAsBinaryString() {
+		if (file.toString() !== '[object File]') {
+			file = file.files[0];
+		}
+
+		reader.readAsBinaryString(file);
+		reader.onload = function (e) {
+			result.innerHTML = this.result;
+		}
+
+	}
+
+	function readAsText() {
+		if (file.toString() !== '[object File]') {
+			file = file.files[0];
+		}
+
+		reader.readAsText(file);
+		reader.onload = function (e) {
+			result.innerHTML = this.result;
+		}
+	}
+	</script>
+
+</body>
+
+</html>
