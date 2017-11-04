@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>create file</title>
+	<style type="text/css">
+	label {
+		display: block;
+		margin: 10px;
+	}
+
+	input {
+		line-height: 1.5;
+	}
+	</style>
+	<script type="text/javascript">
+	function createFile() {
+		let size = document.forms.file.elements.filesize.value;
+		window.webkitRequestFileSystem(PERSISTENT, size, function (fs) {
+			let filename = document.forms.file.elements.filename.value;
+			console.log(filename);
+			fs.root.getFile(filename, {
+				create: true
+			}, function (fileEntry) {
+				console.log(111);
+				let text = `fileEntry fullPath : ${fileEntry.fullPath} </br> filename : ${fileEntry.name} </br>`;
+				document.getElementById("output").innerHTML = text;
+			}, errorHandler);
+		})
+	}
+
+	function errorHandler(e) {
+		console.log(e);
+	}
+	</script>
+</head>
+
+<body>
+
+
+	<form name="file">
+		<label>filename:
+			<input type="text" name="filename" value="test.txt"> </label>
+		<label>filesize:
+			<input type="text" name="filesize" value="1024">
+		</label>
+		<input type="button" name="btn" value="createBtn" onclick="createFile()">
+	</form>
+	<output id="output"></output>
+	<!-- <form oninput="result.value=parseInt(a.value)+parseInt(b.value)">
+		<input type="range" name="b" value="50" /> +
+		<input type="number" name="a" value="10" /> =
+		<output name="result"></output>
+	</form> -->
+</body>
+
+</html>
