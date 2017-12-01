@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>pointer-events</title>
+	<style>
+	a {
+		color: red;
+	}
+
+	a:hover {
+		cursor: pointer;
+	}
+
+	.disable {
+		pointer-events: none;
+		color: #666;
+	}
+	</style>
+</head>
+
+<body>
+	<a id='btn'>send code.</a>
+	<script type="text/javascript">
+	var oBtn = document.getElementById('btn');
+	oBtn.onclick = function () {
+		console.log('a is clicked.')
+		oBtn.classList.add('disable');
+
+		setTimeout(function () {
+			oBtn.classList.remove('disable');
+		}, 3000)
+	}
+	</script>
+</body>
+
+</html>
