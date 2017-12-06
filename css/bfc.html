@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>BFC</title>
+	<style>
+	body, div {
+		margin: 0;
+	}
+
+	html {
+		margin-top: 50px;
+	}
+
+	.box {
+		margin-top: 50px;
+		border: 1px solid black;
+		overflow: hidden;
+		width: 200px;
+	}
+
+	.item {
+		float: left;
+		height: 100px;
+		width: 100px;
+		background: #fff232;
+	}
+
+	.box>div {}
+
+	.item2 {
+		overflow: hidden;
+		background: #443ff0;
+		word-break: break-all;
+	}
+	</style>
+</head>
+
+<body>
+	<div class="box" id="box">
+		<div class="item">Should Overflow</div>
+		<div class="item2">box2 ffffffffffffffffffffffffffffffffffffffffffffffffffffffffff</div>
+	</div>
+	<output>
+
+	</output>
+	<script type="text/javascript">
+	var oBox = document.getElementById('box');
+	var width = oBox.clientWidth;
+
+	var oItem2 = document.getElementsByClassName('item2')[0];
+
+	var item2Width = oItem2.clientWidth;
+
+	var output = document.getElementsByTagName('output')[0];
+	output.innerHTML = 'box width is ' + width + ' , item2 width is' + item2Width;
+	</script>
+</body>
+
+</html>

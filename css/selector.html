@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>selector</title>
+	<style>
+	.wrapper {
+		margin: 100px;
+	}
+
+	ul:empty::after {
+		content: 'nothing~';
+	}
+
+	#ul {
+		display: flex;
+		flex-direction: column;
+		width: 200px;
+		padding: 2px;
+		list-style: none;
+		text-decoration: none;
+	}
+
+	#ul>li {
+		margin: 5px 0;
+		pointer-events: none;
+	}
+
+	#ul>li::after {
+		pointer-events: auto;
+		content: '×';
+		float: right;
+		width: 15px;
+		height: 15px;
+		margin: 0 -20px;
+		padding: 2px 4px;
+		text-align: center;
+		line-height: 15px;
+		color: #505739;
+		background-color: #eae0c2;
+		background: linear-gradient(to bottom, #eae0c2 5%, #ccc2a6 100%);
+		border-radius: 5px;
+		box-shadow: 0px 0px 2px -1px #1c1b18;
+		text-shadow: 0px 1px 0px #ffffff;
+		cursor: pointer;
+	}
+
+	#ul>li:hover::after {
+		background-color: #ccc2a6;
+		background: linear-gradient(to bottom, #ccc2a6 5%, #eae0c2 100%);
+	}
+	</style>
+</head>
+
+<body>
+
+	<div class="wrapper">
+		<input type="text" id='input'>
+		<ul id='ul'></ul>
+	</div>
+
+	<script>
+	let oInput = document.getElementById('input');
+
+	let oUl = document.getElementById('ul');
+
+	oInput.onkeydown = function (e) {
+		let value = oInput.value;
+		if (e.keyCode === 13) {
+			oUl.innerHTML += `<li>${value}</li>`;
+			oInput.value = '';
+		}
+	}
+
+	oUl.onclick = function (e) {
+		if (e.target.nodeName === 'LI') {
+			oUl.removeChild(e.target);
+		}
+	}
+	</script>
+
+</body>
+
+</html>

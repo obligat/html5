@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>inline</title>
+
+	<style>
+	body {
+		padding: 200px;
+	}
+
+	.item {
+		display: list-item;
+		list-style-type: cjk-earthly-branch;
+		list-style-position: inside;
+	}
+	/*table layout*/
+
+	.table {
+		width: 500px;
+		display: table;
+		border-collapse: collapse;
+	}
+
+	.row {
+		display: table-row;
+	}
+
+	.cell {
+		display: table-cell;
+		height: 35px;
+		border: 1px solid #dedede;
+		text-align: center;
+		vertical-align: middle;
+	}
+
+	.caption {
+		display: table-caption;
+		height: 35px;
+		text-align: center;
+	}
+	</style>
+</head>
+
+<body>
+	<div class="box">
+		<div class="item">item</div>
+		<div class="item">item</div>
+		<div class="item">item</div>
+	</div>
+
+	<div class="table">
+		<div class="caption">this is a table</div>
+		<div class="row">
+			<div class="cell">item</div>
+			<div class="cell">item</div>
+			<div class="cell">item</div>
+		</div>
+		<div class="row">
+			<div class="cell">item2</div>
+			<div class="cell">item2</div>
+			<div class="cell">item2</div>
+		</div>
+	</div>
+</body>
+
+</html>
