@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>column charts</title>
+	<script src="d3/d3.min.js" charset="UTF-8"></script>
+</head>
+
+<body>
+	<div id="chart"></div>
+	<div>
+		<button onclick="mysort()">sort</button>
+		<button onclick="myadd()">add data</button>
+
+	</div>
+
+	<script type="text/javascript">
+	let data = [23, 143, 33, 115, 55, 123, 34];
+
+	let width = 400,
+		height = 400,
+		rectStep = 35,
+		rectWidth = 30;
+	let padding = {
+		top: 20,
+		right: 20,
+		bottom: 10,
+		left: 20
+	}
+
+	let svg = d3.select('#chart')
+		.append('svg')
+		.attr('width', width)
+		.attr('height', height);
+
+
+	function draw() {
+		let updateRect = svg.selectAll('rect').data(data);
+		let enterRect = updateRect.enter();
+		let exitRect = updateRect.exit();
+
+		let updateText = svg.selectAll('text').data(data);
+		let enterText = updateText.enter();
+		let exitText = updateText.exit();
+
+		updateRect.attr('fill', 'steelblue')
+			.attr('x', (d, i) => padding.left + i * rectStep)
+			.attr('y', d => height - padding.bottom - d)
+			.attr('width', rectWidth)
+			.attr('height', d => d);
+		enterRect.append('rect')
+			.attr('fill', 'steelblue')
+			.attr('x', (d, i) => padding.left + i * rectStep)
+			.attr('y', d => height - padding.bottom - d)
+			.attr('width', rectWidth)
+			.attr('height', d => d);
+		exitRect.remove();
+
+		updateText.attr('fill', 'white')
+			.attr('font-size', '14px')
+			.attr('text-anchor', 'middle')
+			.attr('x', (d, i) => padding.left + i * rectStep)
+			.attr('y', d => height - padding.bottom - d)
+			.attr('dx', rectWidth / 2)
+			.attr('dy', '1em')
+			.text(d => d)
+
+		enterText.append('text')
+			.attr('fill', 'white')
+			.attr('font-size', '14px')
+			.attr('text-anchor', 'middle')
+			.attr('x', (d, i) => padding.left + i * rectStep)
+			.attr('y', d => height - padding.bottom - d)
+			.attr('dx', rectWidth / 2)
+			.attr('dy', '1em')
+			.text(d => d)
+
+		exitText.remove()
+
+	}
+
+	function mysort() {
+		data.sort(d3.ascending);
+		draw();
+	}
+
+	function myadd() {
+		data.push(Math.floor(Math.random() * 100));
+		draw();
+		console.log(data.length)
+	}
+
+	draw()
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>transition</title>
+	<script type="text/javascript" src="d3/d3.min.js" charset="UTF-8"></script>
+</head>
+
+<body>
+	<button onclick="update()">Update</button>
+	<button onclick="add()">Add</button>
+	<button onclick="sub()">Sub</button>
+
+	<script>
+	var center = createReadomArray(8);
+	var width = 500,
+		height = 500,
+		xAxisWidth = 300,
+		yAxisWidth = 300;
+
+	var svg = d3.select('body').append('svg')
+		.attr('width', width)
+		.attr('height', height);
+
+	var padding = {
+		top: 30,
+		bottom: 30,
+		left: 30,
+		right: 30
+	};
+
+	var xScale = d3.scaleLinear()
+		.domain([0, 1])
+		.range([0, xAxisWidth]);
+	var yScale = d3.scaleLinear()
+		.domain([0, 1])
+		.range([yAxisWidth, 0]);
+
+
+	function drawCircle() {
+		var circleUpdate = svg.selectAll('circle')
+			.data(center);
+
+		var circleEnter = circleUpdate.enter();
+		var circleExit = circleUpdate.exit();
+
+		circleUpdate.transition()
+			.duration(500)
+			.attr('cx', d => padding.left + xScale(d[0]))
+			.attr('cy', d => height - padding.bottom - yScale(d[1]));
+
+		circleEnter.append('circle')
+			.attr('fill', 'black')
+			.attr('cx', padding.left)
+			.attr('cy', height - padding.bottom)
+			.attr('r', 7)
+			.transition()
+			.duration(500)
+			.attr('cx', d => padding.left + xScale(d[0]))
+			.attr('cy', d => height - padding.bottom - yScale(d[1]))
+
+		circleExit.transition()
+			.duration(500)
+			.attr('fill', 'white')
+			.remove();
+
+
+	}
+
+	function drawAxis() {
+		var xAxis = d3.axisBottom(xScale).ticks(5);
+		var yAxis = d3.axisLeft(yScale).ticks(5);
+
+		svg.append('g')
+			.attr('transform', `translate(${padding.left},${height - padding.bottom})`)
+			.call(xAxis);
+
+		svg.append('g')
+			.attr('transform', `translate(${padding.left},${height - padding.bottom - yAxisWidth})`)
+			.call(yAxis);
+
+	}
+
+
+	function update() {
+		for (var i = 0; i < center.length; i++) {
+			center[i][0] = Math.random();
+			center[i][1] = Math.random();
+
+		}
+
+		drawCircle();
+	}
+
+	function add() {
+		center.push([getReadomNum(), getReadomNum()]);
+		drawCircle();
+	}
+
+	function sub() {
+		center.pop();
+		drawCircle();
+	}
+
+
+	function getReadomNum() {
+		return Number(Math.random().toFixed(1));
+	}
+
+	function createReadomArray(length) {
+		var data = [];
+
+		for (var i = 0; i < length; i++) {
+			var temp = [getReadomNum(), getReadomNum()];
+			data.push(temp);
+		}
+
+		return data;
+	}
+
+	drawAxis()
+	</script>
+
+</body>
+
+</html>

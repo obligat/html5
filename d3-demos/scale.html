@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>scale</title>
+	<script type="text/javascript" src="d3/d3.min.js" charset="UTF-8"></script>
+</head>
+
+<body>
+	<script type="text/javascript">
+	let quantize = d3.scaleQuantize()
+		.domain([0, 50])
+		.range(['#000', '#222', '#444', '#666', '#888'])
+
+	console.log(quantize(20));
+
+	let r = [45, 35, 25, 15, 5]
+
+	let svg = d3.select('body').append('svg')
+		.attr('width', 400)
+		.attr('height', 200)
+
+	svg.selectAll('circle')
+		.data(r)
+		.enter()
+		.append('circle')
+		.attr('cx', (d, i) => 50 + i * 30)
+		.attr('cy', 50)
+		.attr('r', d => d)
+		.attr('fill', d => quantize(d));
+
+	let width = 600,
+		height = 600;
+	let data = d3.range(5);
+	let color = d3.scaleOrdinal(d3.schemeCategory10);
+
+	let svg2 = d3.select('body').append('svg')
+		.attr('width', width)
+		.attr('height', 200)
+
+	let circle = svg2.selectAll('circle')
+		.data(data)
+		.enter()
+		.append('circle')
+		.attr('cx', (d, i) => 30 + i * 80)
+		.attr('cy', 100)
+		.attr('r', 30)
+		.attr('fill', (d, i) => color(i))
+
+	let text = svg2.selectAll('text')
+		.data(data)
+		.enter()
+		.append('text')
+		.attr('fill', 'black')
+		.attr('x', (d, i) => 5 + i * 80)
+		.attr('y', 150)
+		.text(d => color(d))
+
+
+	/* Axis */
+
+	let svg3 = d3.select('body').append('svg')
+		.attr('width', 600)
+		.attr('height', 600)
+
+	/*let xScale = d3.scaleLinear()
+		.domain([0, 10])
+		.range([0, 300])
+
+	let axis = d3.axisBottom(xScale);
+
+	let gAxis = svg3.append('g')
+		.attr('transform', 'translate(80,80)')
+		.call(axis)*/
+
+
+	/* Scatter Pots */
+
+	let center = [
+		[0.5, 0.5],
+		[0.3, 0.7],
+		[0.2, 0.6],
+		[0.3, 0.2],
+		[0.6, 0.9],
+		[0.4, 0.8],
+		[0.6, 0.7],
+		[0.7, 0.4],
+		[0.9, 0.1]
+	]
+
+	let padding = {
+		top: 20,
+		right: 20,
+		bottom: 10,
+		left: 20
+	}
+
+	let xScale2 = d3.scaleLinear()
+		.domain([0, 1.2 * d3.max(center, d => d[0])])
+		.range([0, 500])
+
+	let yScale2 = d3.scaleLinear()
+		.domain([0, 1.2 * d3.max(center, d => d[1])])
+		.range([500, 0])
+
+	let axisBottom = d3.axisBottom(xScale2);
+	let axisLeft = d3.axisLeft(yScale2);
+
+	let circle2 = svg3.selectAll('circle')
+		.data(center)
+		.enter()
+		.append('circle')
+		.attr('fill', 'green')
+		.attr('cx', d => padding.left + xScale2(d[0]))
+		.attr('cy', d => height - padding.bottom - yScale2(d[1]))
+		.attr('r', 5)
+
+	svg3.append('g')
+		.attr('transform', 'translate(80,80)')
+		.call(axisLeft)
+
+	svg3.append('g')
+		.attr('transform', 'translate(80,580)')
+		.call(axisBottom)
+	</script>
+</body>
+
+</html>

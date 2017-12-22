@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>index</title>
+	<script type="text/javascript" src="d3/d3.min.js" charset="UTF-8"></script>
+</head>
+
+<body>
+	<p></p>
+	<p></p>
+	<p></p>
+	<p></p>
+
+	<script type="text/javascript">
+	let data = [1, 2, 3];
+
+	let p = d3.select("body").selectAll("p");
+
+	let update = p.data(data);
+
+	update.text(d => d);
+
+	update.exit().remove();
+
+
+	/* sort */
+
+	let numbers = [12, 2, 3, 32, "fs", 323, 12, 3];
+
+	// numbers.sort(d3.ascending);
+	numbers.sort(d3.descending);
+
+	console.log(numbers);
+
+	console.log(d3.min(numbers, d => d * 2), d => d * 2)
+	console.log(d3.max(numbers, d => d - 1 * 3))
+	console.log(d3.extent(numbers, d => d % 7))
+
+	console.log(d3.shuffle(numbers))
+
+	console.log(d3.merge([
+		[1, 2],
+		[34, 23]
+	]))
+
+
+	/* Map */
+
+	let maps = [{
+			id: 1,
+			data: 'TOTO'
+		},
+		{
+			id: 2,
+			data: 'BOBO'
+		},
+		{
+			id: 3,
+			data: 'NONO'
+		},
+		{
+			id: 4,
+			data: 'GOGO'
+		},
+		{
+			id: 5,
+			data: 'RORO'
+		},
+
+	]
+
+	let map = d3.map(maps, d => d.id)
+
+	console.log(map)
+	console.log(map.keys())
+	console.log(map.values())
+	console.log(map.entries())
+
+	map.each((v, k) => console.log(v))
+
+
+	/*	let width = 400,
+			height = 400;
+
+		let svg = d3.select("body")
+			.append("svg")
+			.attr("width", width)
+			.attr("height", height);
+
+		svg.append("circle")
+			.attr("cx", "50px")
+			.attr("cy", "50px")
+			.attr("r", "50px")
+			.attr("fill", "orange")*/
+	</script>
+</body>
+
+</html>

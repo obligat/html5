@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>shapes</title>
+	<script type="text/javascript" src="d3/d3.min.js" charset="UTF-8"></script>
+</head>
+
+<body>
+	<canvas id='canvas' width="300" height="300"></canvas>
+	<script type="text/javascript">
+	let lines = [
+		[10, 23],
+		[43, 23],
+		[43, 65],
+		[55, 43]
+	]
+	let line = d3.line()
+
+	let svg = d3.select('body').append('svg')
+		.attr('width', 400)
+		.attr('height', 200)
+
+	svg.append('path')
+		.attr('d', line(lines))
+		.attr('stroke', 'black')
+		.attr('stroke-width', '3px')
+		.attr('fill', 'none')
+
+
+	var data = [{
+			month: new Date(2015, 0, 1),
+			apples: 3840,
+			bananas: 1920,
+			cherries: 960,
+			dates: 400
+		},
+		{
+			month: new Date(2015, 1, 1),
+			apples: 1600,
+			bananas: 1440,
+			cherries: 960,
+			dates: 400
+		},
+		{
+			month: new Date(2015, 2, 1),
+			apples: 640,
+			bananas: 960,
+			cherries: 640,
+			dates: 400
+		},
+		{
+			month: new Date(2015, 3, 1),
+			apples: 320,
+			bananas: 480,
+			cherries: 640,
+			dates: 400
+		}
+	];
+
+	var stack = d3.stack()
+		.keys(["apples", "bananas", "cherries", "dates"])
+		.order(d3.stackOrderNone)
+		.offset(d3.stackOffsetNone);
+
+	var series = stack(data);
+
+	var arc = d3.arc()
+		.innerRadius(0)
+		.outerRadius(100)
+
+	var svg2 = d3.select('body')
+		.append('svg')
+		.attr('width', 300)
+		.attr('height', 300)
+
+	var dataset = [{
+		startAngle: 0,
+		endAngle: Math.PI * 0.6
+	}, {
+		startAngle: Math.PI * 0.6,
+		endAngle: Math.PI
+	}, {
+		startAngle: Math.PI * 1.7,
+		endAngle: Math.PI * 2
+	}, ];
+
+	var color = d3.scaleOrdinal(d3.schemeCategory10);
+
+
+	svg2.selectAll('path')
+		.data(dataset)
+		.enter()
+		.append('path')
+		.attr('d', d => {
+			console.log(arc(d));
+			return arc(d)
+		})
+		.attr('transform', 'translate(150,150)')
+		.attr('fill', (d, i) => color(i));
+
+	var canvas = document.getElementById('canvas');
+	var ctx = canvas.getContext('2d');
+
+	var width = canvas.width,
+		height = canvas.height,
+		radius = Math.min(width, height) / 2;
+
+	ctx.translate(width / 2, height / 2)
+
+	var arc = d3.arc()
+		.innerRadius(0)
+		.outerRadius(radius / 2)
+		.startAngle(0)
+		.endAngle(Math.PI * 2)
+		.context(ctx);
+
+	ctx.beginPath();
+	arc();
+	ctx.fillStyle = 'orange';
+	ctx.fill();
+	</script>
+</body>
+
+</html>
